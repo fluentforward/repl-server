@@ -8,6 +8,8 @@
 
 (def sandbox-cache (atom (cache/ttl-cache-factory {} :ttl (* 2 60 60 1000)))) ; 2 hour cache ttl
 
+(defn sessions [] (keys @sandbox-cache))
+
 (defn eval-form [form sbox]
   (with-open [out (StringWriter.)]
     (let [result (sbox form {#'*out* out})]
