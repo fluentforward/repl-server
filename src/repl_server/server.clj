@@ -12,11 +12,10 @@
       (assoc-in resp [:headers "Access-Control-Allow-Origin"] "*")
       )))
 
-(server/add-middleware enable-cors)
-
 (defn -main [& m]
   (let [mode (keyword (or (first m ) :dev))
         port (or (to-port (System/getenv "PORT")) 8080)
        ]
+    (server/wrap-route :resources enable-cors)       
     (server/start port {:mode mode
                         :ns 'repl-server})))
