@@ -9,7 +9,8 @@
 (defn enable-cors [handler]
   (fn [request]
     (let [resp (handler request)]
-      (assoc-in resp [:headers "Access-Control-Allow-Origin"] "*")
+      (assoc-in (assoc-in resp [:headers "Access-Control-Allow-Origin"] "*")
+        [:headers "X-Requested-With"] "")
       )))
 
 (defn -main [& m]
