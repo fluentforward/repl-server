@@ -19,4 +19,11 @@
        ]
     (server/wrap-route :resources enable-cors)       
     (server/start port {:mode mode
-                        :ns 'repl-server})))
+                        :ns 'repl-server
+                        :jetty-options {
+                          :ssl? true
+                          :ssl-port 443
+                          :keystore (System/getenv "KEYSTORE")
+                          :key-password (System/getenv "KEYPASS")
+                        }
+                        })))
