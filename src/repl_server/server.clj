@@ -6,6 +6,14 @@
 (defn to-port [s]
   (when-let [port s] (Long. port)))
 
+(defn enable-cors [handler]
+  (fn [request]
+    (let [resp (handler request)]
+      (assoc-in resp [:headers "Access-Control-Allow-Origin"] "*")
+      )))
+
+(server/add-middleware enable-cors)
+
 (defn -main [& m]
   (let [mode (keyword (or (first m ) :dev))
         port (or (to-port (System/getenv "PORT")) 8080)
